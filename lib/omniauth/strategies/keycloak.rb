@@ -16,7 +16,7 @@ module OmniAuth
 
       option :redirect_url
 
-      option :token_params, {
+      option :authorize_params, {
         :scope => "offline_access"
       }
 
