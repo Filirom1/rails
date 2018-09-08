@@ -1,60 +1,28 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-  <h2>Listing Repositories</h2>
-
-  <div class="btn-toolbar mb-2 mb-md-0">
-    <div class="btn-group mr-2">
-      <button class="btn btn-sm btn-outline-secondary">Share</button>
-      <button class="btn btn-sm btn-outline-secondary">Export</button>
-    </div>
-    <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
-      <span data-feather="calendar"></span>
-      This week
-    </button>
-  </div>
+  <h2>Your Repositories</h2>
 </div>
 
 
 <ul class="list-unstyled">
   <% @repositories.each do |repository| %>
   <li class="media">
-    <img class="mr-3 avatar" src="<%= repository.avatar_url %>" alt="">
+    <!--- <img class="mr-3 avatar" src="<%= repository.avatar_url %>" alt=""> --> 
     <div class="media-body">
-      <h5 class="mt-0"><%= repository.name_with_namespace %></h5>
-      <div class="mb-0">
-        <%= repository.description %>
-      </div>
-      <div class="collapse" id="collapse-<%= repository.id %>">
-        <div class="form-check checkbox-slider--b-flat">
-          <label><input type="checkbox"><span>ITDiscovery</span></label>
+      <%= form_tag("/repositories") do %>
+        <%= hidden_field_tag(:id, repository.id)  %>
+        <h5 class="mt-0"><%= repository.name_with_namespace %></h5>
+        <div class="mb-0">
+          <%= repository.description %>
         </div>
-        <div class="form-check checkbox-slider--b-flat">
-          <label><input type="checkbox"><span>CMDB</span></label>
+        <div class="collapse" id="collapse-<%= repository.id %>">
+          <% @scopes.each do |scope| %>
+            <div class="form-check checkbox-slider--b-flat">
+              <label><%= check_box_tag(scope[:id])%><span><%= scope[:description] %></span></label>
+            </div>
+          <% end %>
+          <%= submit_tag("Save changes", class: "btn btn-success") %>
         </div>
-        <div class="form-check checkbox-slider--b-flat">
-          <label><input type="checkbox"><span>Acacia</span></label>
-        </div>
-        <div class="form-check checkbox-slider--b-flat">
-          <label><input type="checkbox"><span>Product A</span></label>
-        </div>
-        <div class="form-check checkbox-slider--b-flat">
-          <label><input type="checkbox"><span>Product A</span></label>
-        </div>
-        <div class="form-check checkbox-slider--b-flat">
-          <label><input type="checkbox"><span>Product A</span></label>
-        </div>
-        <div class="form-check checkbox-slider--b-flat">
-          <label><input type="checkbox"><span>Product A</span></label>
-        </div>
-        <div class="form-check checkbox-slider--b-flat">
-          <label><input type="checkbox"><span>Product A</span></label>
-        </div>
-        <div class="form-check checkbox-slider--b-flat">
-          <label><input type="checkbox"><span>Product A</span></label>
-        </div>
-        <div class="form-check checkbox-slider--b-flat">
-          <label><input type="checkbox"><span>Product A</span></label>
-        </div>
-      </div>
+      <% end %>
     </div>
     <button class="btn btn-outline-dark mb-1" type="button" data-toggle="collapse" data-target="#collapse-<%= repository.id %>" aria-expanded="false" aria-controls="collapse-<%= repository.id %>">
       Expand

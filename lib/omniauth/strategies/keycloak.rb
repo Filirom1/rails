@@ -1,4 +1,5 @@
 require 'omniauth-oauth2'
+require 'jwt'
 
 module OmniAuth
   module Strategies
@@ -17,31 +18,25 @@ module OmniAuth
       option :redirect_url
 
       option :authorize_params, {
-        :scope => "offline_access"
+        :scope => "offline_access openid profile"
       }
 
-      # These are called after authentication has succeeded. If
-      # possible, you should try to set the UID without making
-      # additional calls (if the user id is returned with the token
-      # or as a URI parameter). This may not be possible with all
-      # providers.
-      uid{ raw_info['id'] }
+      option :token_params, {
+        :scope => "offline_access openid profile"
+      }
 
       info do
+        jwt = ::JWT.decode(access_token['id_token'], nil, false).first
         {
-          :name => raw_info['name'],
-          :email => raw_info['email']
+          :username => jwt['preferred_username'],
+          :email => jwt['email']
         }
       end
 
       extra do
         {
-          'raw_info' => raw_info
+          'id_token' => access_token['id_token'],
         }
-      end
-
-      def raw_info
-        @raw_info ||= access_token#.get('/userinfo').parsed
       end
 
       private
