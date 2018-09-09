@@ -6,25 +6,25 @@
 <ul class="list-unstyled">
   <% @repositories.each do |repository| %>
   <li class="media">
-    <!--- <img class="mr-3 avatar" src="<%= repository.avatar_url %>" alt=""> --> 
     <div class="media-body">
       <%= form_tag("/repositories") do %>
-        <%= hidden_field_tag(:id, repository.id)  %>
-        <h5 class="mt-0"><%= repository.name_with_namespace %></h5>
+        <%= hidden_field_tag(:id, repository['id'])  %>
+        <%= hidden_field_tag(:name, repository['name_with_namespace'])  %>
+        <h5 class="mt-0"><%= repository['name_with_namespace'] %></h5>
         <div class="mb-0">
-          <%= repository.description %>
+          <%= repository['description'] %>
         </div>
-        <div class="collapse" id="collapse-<%= repository.id %>">
-          <% @scopes.each do |scope| %>
+        <div class="collapse" id="collapse-<%= repository['id'] %>">
+          <% repository['scopes'].each do |scope| %>
             <div class="form-check checkbox-slider--b-flat">
-              <label><%= check_box_tag(scope[:id])%><span><%= scope[:description] %></span></label>
+              <label><%= check_box_tag(scope[:id], 'yes', scope[:enabled] )%><span><%= scope[:name] %></span></label>
             </div>
           <% end %>
           <%= submit_tag("Save changes", class: "btn btn-success") %>
         </div>
       <% end %>
     </div>
-    <button class="btn btn-outline-dark mb-1" type="button" data-toggle="collapse" data-target="#collapse-<%= repository.id %>" aria-expanded="false" aria-controls="collapse-<%= repository.id %>">
+    <button class="btn btn-outline-dark mb-1" type="button" data-toggle="collapse" data-target="#collapse-<%= repository['id'] %>" aria-expanded="false" aria-controls="collapse-<%= repository['id'] %>">
       Expand
     </button>
   </li>

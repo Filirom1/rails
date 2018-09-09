@@ -11,6 +11,9 @@ module Project
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
-   config.web_console.whitelisted_ips = '10.0.2.2/32'
+
+    config.allowed_scopes = "urn:company:service_a urn:company:service_b urn:company:service_c urn:company:service_d urn:company:service_e"
+    config.web_console.whitelisted_ips = '10.0.2.2/32'
+
   end
 end

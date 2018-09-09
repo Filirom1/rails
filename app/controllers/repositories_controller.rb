@@ -3,45 +3,46 @@ require 'yaml'
 
 class RepositoriesController < ApplicationController
   def index
-    projects_str = RestClient.get("https://gitlab.com/api/v4/users/#{session[:gitlab]['user']}/projects", :authorization => "Bearer #{session[:gitlab]['token']}")
-    projects = JSON.parse(projects_str, object_class: OpenStruct)
-    @repositories = projects
-    @scopes = [{
-      id: 'urn:company:a',
-      description: 'API A',
-    }, {
-      id: 'urn:company:b',
-      description: 'API B',
-    }, {
-      id: 'urn:company:c',
-      description: 'API C',
-    }, {
-      id: 'urn:company:d',
-      description: 'API D',
-    }, {
-      id: 'urn:company:e',
-      description: 'API E',
-    }, {
-      id: 'urn:company:f',
-      description: 'API F',
-    }]
+    return redirect_to  "/auth/gitlab" unless session[:gitlab]
+
+    @scopes = Rails.configuration.allowed_scopes.split " "
+    username = session[:gitlab]['user']
+    token = GitlabUser.where(name: username).first.token
+    projects_str = RestClient.get("https://gitlab.com/api/v4/users/#{username}/projects", :authorization => "Bearer #{token}")
+    projects = JSON.parse(projects_str)
+    @repositories = projects.map do |project|
+      if Repository.exists?(project['id'])
+        repository = Repository.find(project['id'])
+        project['scopes'] = @scopes.map do |s|
+          enabled = repository.scopes.include?(s)
+          {id: s, name: s.gsub(/.*:/, ''), enabled: enabled}
+        end
+        puts project.inspect
+      else
+        project['scopes'] = @scopes.map do |s|
+          {id: s, name: s.gsub(/.*:/, '')}
+        end
+      end
+      project
+    end
   end
 
   def create
     scopes = []
     params.each do |k,v|
       next unless k.start_with? 'urn:'
-      next unless v == '1' 
+      next unless v == 'yes' 
       scopes << k
     end
 
     id = params['id'].to_i
-    scopes_str = scopes.join(',')
+    scopes_str = scopes.join(' ')
     repository = Repository.where(id: id).first_or_create()
     repository.scopes = scopes_str
     repository.enabled = ! scopes.empty?
     repository.user = session[:keycloak]['user']
     repository.gitlab_user = session[:gitlab]['user']
+    repository.name = params['name']
     repository.save
   end
 end
