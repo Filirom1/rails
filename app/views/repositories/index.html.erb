@@ -1,0 +1,29 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h2>Listing Repositories</h2>
+
+  <div class="btn-toolbar mb-2 mb-md-0">
+    <div class="btn-group mr-2">
+      <button class="btn btn-sm btn-outline-secondary">Share</button>
+      <button class="btn btn-sm btn-outline-secondary">Export</button>
+    </div>
+    <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
+      <span data-feather="calendar"></span>
+      This week
+    </button>
+  </div>
+</div>
+
+
+<ul class="list-unstyled">
+  <% @repositories.each do |repository| %>
+  <li class="media">
+    <img class="mr-3 avatar align-self-center" src="<%= repository.avatar_url %>" alt="Generic placeholder image">
+    <div class="media-body">
+      <h5 class="mt-0"><%= repository.name_with_namespace %></h5>
+      <div class="mb-0">
+        <%= repository.description %>
+      </div>
+    </div>
+  </li>
+  <% end %>
+</ul>

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id: 
+  description: MyText
+  name_with_namespace: MyString
+  last_activity_at: 2018-09-08
+
+two:
+  id: 
+  description: MyText
+  name_with_namespace: MyString
+  last_activity_at: 2018-09-08
