@@ -17,13 +17,48 @@
 <ul class="list-unstyled">
   <% @repositories.each do |repository| %>
   <li class="media">
-    <img class="mr-3 avatar align-self-center" src="<%= repository.avatar_url %>" alt="Generic placeholder image">
+    <img class="mr-3 avatar" src="<%= repository.avatar_url %>" alt="">
     <div class="media-body">
       <h5 class="mt-0"><%= repository.name_with_namespace %></h5>
       <div class="mb-0">
         <%= repository.description %>
       </div>
+      <div class="collapse" id="collapse-<%= repository.id %>">
+        <div class="form-check checkbox-slider--b-flat">
+          <label><input type="checkbox"><span>Product A</span></label>
+        </div>
+        <div class="form-check checkbox-slider--b-flat">
+          <label><input type="checkbox"><span>Product A</span></label>
+        </div>
+        <div class="form-check checkbox-slider--b-flat">
+          <label><input type="checkbox"><span>Product A</span></label>
+        </div>
+        <div class="form-check checkbox-slider--b-flat">
+          <label><input type="checkbox"><span>Product A</span></label>
+        </div>
+        <div class="form-check checkbox-slider--b-flat">
+          <label><input type="checkbox"><span>Product A</span></label>
+        </div>
+        <div class="form-check checkbox-slider--b-flat">
+          <label><input type="checkbox"><span>Product A</span></label>
+        </div>
+        <div class="form-check checkbox-slider--b-flat">
+          <label><input type="checkbox"><span>Product A</span></label>
+        </div>
+        <div class="form-check checkbox-slider--b-flat">
+          <label><input type="checkbox"><span>Product A</span></label>
+        </div>
+        <div class="form-check checkbox-slider--b-flat">
+          <label><input type="checkbox"><span>Product A</span></label>
+        </div>
+        <div class="form-check checkbox-slider--b-flat">
+          <label><input type="checkbox"><span>Product A</span></label>
+        </div>
+      </div>
     </div>
+    <button class="btn btn-outline-dark mb-1" type="button" data-toggle="collapse" data-target="#collapse-<%= repository.id %>" aria-expanded="false" aria-controls="collapse-<%= repository.id %>">
+      Expand
+    </button>
   </li>
   <% end %>
 </ul>

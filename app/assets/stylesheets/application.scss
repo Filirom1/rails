@@ -13,6 +13,7 @@
  */
 @import "bootstrap";
 @import "feathericon";
+@import "titatoggle";
 
 body {
   font-size: .875rem;
@@ -120,5 +121,5 @@ body {
   width: 100%; 
   max-width: 50px;
   max-height: 50px;
-  border-radius: 5rem;
+  border-radius: 50%;
 }
